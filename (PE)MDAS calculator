@@ -1,0 +1,81 @@
+com = input(">")
+com1 = "("+com+")"
+
+
+def multiply():
+   if "*" in sorting.numb:
+       multiply.x = float(sorting.numb[0]) * float(sorting.numb[2])
+   elif "/" in sorting.numb:
+       multiply.x = float(sorting.numb[0]) / float(sorting.numb[2])
+
+def add():
+   if "+" in sorting.numbe:
+       add.x = float(sorting.numbe[0]) + float(sorting.numbe[2])
+   elif "-" in sorting.numbe:
+       add.x = float(sorting.numbe[0]) - float(sorting.numbe[2])
+
+def sorting():
+   num = []
+   integers = []
+   for i in range(0, len(com)):
+       if com[i] == "+" or com[i] == "/" or com[i] == "*" or com[i] == "-":
+           integers.append(i)
+   x = 0
+   y = 0
+   while y + 1 <= len(integers):
+       x += 1
+       if x == 1:
+           n = com[0:integers[0]].replace(" ", "")
+           num.append(n)
+       elif y + 1 < len(integers):
+           n = com[integers[y] + 1:integers[y + 1]:].replace(" ", "")
+           num.append(n)
+           y += 1
+       else:
+           n = com[integers[len(integers) - 1] + 1::].replace(" ", "")
+           num.append(n)
+           break
+   sort = 0
+   p = integers
+   q = num
+   while sort < len(integers):
+       p = integers
+       q = num
+       sorting.numb = (q[sort], com[p[sort]], q[sort + 1])
+       if "*" in sorting.numb:
+           multiply()
+           num[sort] = " "
+           num[sort + 1] = multiply.x
+       elif "/" in sorting.numb:
+           multiply()
+           num[sort] = " "
+           num[sort + 1] = multiply.x
+       sort += 1
+   new_integer = [x for x in integers if com[x] != "*" and com[x] != "/"]
+   t = []
+   for x in num:
+       if x != " ":
+           t.append(x)
+   sort = 0
+   p = new_integer
+   q = t
+   while sort < len(new_integer):
+       p = new_integer
+       q = t
+       sorting.numbe = (q[sort], com[p[sort]], q[sort + 1])
+       if "+" in sorting.numbe:
+           add()
+           q[sort] = " "
+           q[sort + 1] = add.x
+       elif "-" in sorting.numbe:
+           add()
+           q[sort] = " "
+           q[sort + 1] = add.x
+       sort += 1
+   ans = []
+   for x in q:
+       if x != " ":
+           ans.append(x)
+   print(str(ans)[1:-1:])
+
+sorting()
