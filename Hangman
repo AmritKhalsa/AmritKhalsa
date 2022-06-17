@@ -1,0 +1,52 @@
+word = "Any random word".lower()
+var = [x for x in word if x != " "]
+lis = []
+global g_
+g = 0
+
+
+def won():
+    word_ = word.upper()
+    print("Congratulations you won! The word was '%s'" % word_)
+    print("You won!!!!!")
+    print("It took you %s guesses." % g)
+    exit()
+
+
+def game():
+    lis.append(introduction.guess)
+    word2 = word
+    for x in var:
+        if x == introduction.guess:
+            var.remove(str(x))
+    for x in word:
+        if x != introduction.guess and x not in lis:
+            d = word2.replace(str(x), "-")
+            word2 = d
+    if "-" in word2:
+        print(d)
+    else:
+        won()
+
+
+def introduction():
+    if g == 0:
+        introduction.guess = " "
+    else:
+        introduction.guess = input("Guess a letter or a word: ").lower()
+    if introduction.guess in lis and introduction.guess != " ":
+        print("you already guessed this")
+    if len(introduction.guess) == 1 or introduction.guess == " ":
+        game()
+    elif introduction.guess not in word:
+        if len(introduction.guess) == 1:
+            print("There is no %s in the word" % introduction.guess)
+    if introduction.guess == word:
+        won()
+    elif len(introduction.guess) > 1:
+        print("That wasn't the word!")
+
+
+while True:
+    introduction()
+    g += 1
