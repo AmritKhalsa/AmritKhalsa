@@ -1,0 +1,50 @@
+Game_ = [[1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9]]
+for x in Game_:
+    print(x)
+
+Game = [[" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]]
+
+list_ = []
+
+def computer():
+    if "5" not in list_:
+        printing(input_=str(5), letter="0")
+    else:
+        printing(input_=str(1), letter="0")
+
+
+def player():
+    while True:
+        input_ = input("Where do you want to place your X: Valid Inputs are 1-9: ")
+        if input_ not in "123456789" or len(input_) != 1:
+            print("Invalid input! Try Again")
+        elif input_ in list_:
+            print("You already guessed that")
+        else:
+            list_.append(input_)
+            break
+    printing(input_=input_, letter="X")
+
+
+def printing(input_, letter):
+    row = 0
+    iteration = 1
+    for c in Game:
+        col = 0
+        for z in c:
+            if str(iteration) == input_:
+                Game[row][col] = str(letter)
+            iteration += 1
+            col += 1
+        row += 1
+
+
+while True:
+    player()
+    computer()
+    for x in Game:
+        print(x)
