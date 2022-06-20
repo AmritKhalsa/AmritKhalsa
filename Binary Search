@@ -1,1 +1,21 @@
-lis
+li = [1, 6, 9, 12, 23, 45, 67, 78, 79, 90, 100, 123, 234, 345]
+input_ = 123
+if input_ < li[0] or input_ > li[-1]:
+    print("Number not in list")
+    quit()
+x = round(len(li) / 2)
+y = 0
+
+while True:
+    if li[x] == input_:
+        print(x)
+        break
+    else:
+        if li[x] > input_:
+            x = round(x/2)
+        else:
+            x = round((2*x+1.1)/2)
+    y += 1
+    if y >= len(li):
+        print("Number not in list")
+        break
