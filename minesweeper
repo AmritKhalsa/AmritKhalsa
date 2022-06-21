@@ -1,0 +1,50 @@
+import random
+
+mine = [
+    ["  ", "  ", " 1 ", " 1 ", "  ", "  ", "1  ", "  ", "  "],
+    ["  ", "  ", "  ", " 1 ", "  ", "  ", "1  ", "  ", "  "],
+    ["  ", "  1", "  ", " 1 ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  1", "  ", "  ", " 1 ", " 1 ", " 1 ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "],
+    [" 1", " 1 ", " 1 ", "  1", " 1 ", " 1 ", "  1", "1  ", " 1 "],
+    ["  ", " 1 ", "  ", "  ", "1  ", "  ", "  ", "  ", "  "],
+    ["  ", "  1", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "],
+    ["  ", " 1 ", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "]
+    ]
+
+print("   1  2  3  4  5  6  7  8  9")
+print("  ----------------------------")
+i = 0
+for x in mine:
+    print(i+1, end=" |")
+    g = 0
+    while g < 9:
+        print(mine[i][g], end="|")
+        g += 1
+    print("")
+    i += 1
+
+
+def printing():
+    input_ = input(">")
+    c = input_.find(",")
+    input_row = int(input_[:c:])
+    input_col = int(input_[c+1::])
+    print("   1  2  3  4  5  6  7  8  9")
+    print("  ----------------------------")
+    row_iteration = 0
+    for row in mine:
+        print(row_iteration+1, end=" |")
+        col_iteration = 0
+        for col in row:
+            if mine[input_row + row_iteration - 1][input_col + col_iteration - 1] == "  ":
+                print(mine[input_row + row_iteration - 1][input_col + col_iteration - 1], end="|")
+            else:
+                print(mine[input_row + row_iteration - 1][input_col + col_iteration - 1], end="|")
+                break
+            col_iteration += 1
+        row_iteration += 1
+        print("")
+
+
+printing()
