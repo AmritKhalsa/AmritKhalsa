@@ -1,25 +1,37 @@
 import random
 
 mine = [
-    ["  ", "  ", " 1 ", " 1 ", "  ", "  ", "1  ", "  ", "  "],
+    ["  ", "  ", "1 ", "1  ", "  1", "  ", "1  ", "  ", "  "],
     ["  ", "  ", "  ", " 1 ", "  ", "  ", "1  ", "  ", "  "],
-    ["  ", "  1", "  ", " 1 ", "  ", "  ", "  ", "  ", "  "],
-    ["  ", "  1", "  ", "  ", " 1 ", " 1 ", " 1 ", "  ", "  "],
-    ["  ", "  ", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "],
+    ["  ", "  1", "  ", " 1 ", "  ", "1  ", "  ", "  ", "  "],
+    ["  ", "  1", " 1 ", "  ", "  ", " 1 ", " 1 ", "  ", "  "],
+    ["  ", "  ", " 1 ", "  ", "  ", "  ", " 1 ", "  ", "  "],
     [" 1", " 1 ", " 1 ", "  1", " 1 ", " 1 ", "  1", "1  ", " 1 "],
     ["  ", " 1 ", "  ", "  ", "1  ", "  ", "  ", "  ", "  "],
-    ["  ", "  1", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "],
+    ["  ", "  1", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
     ["  ", " 1 ", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "]
+    ]
+
+mine_ = [
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
     ]
 
 print("   1  2  3  4  5  6  7  8  9")
 print("  ----------------------------")
 i = 0
-for x in mine:
+for p in mine_:
     print(i+1, end=" |")
     g = 0
     while g < 9:
-        print(mine[i][g], end="|")
+        print(mine_[i][g], end="|")
         g += 1
     print("")
     i += 1
@@ -27,24 +39,39 @@ for x in mine:
 
 def printing():
     input_ = input(">")
-    c = input_.find(",")
-    input_row = int(input_[:c:])
-    input_col = int(input_[c+1::])
+    c = int(input_.find(","))
     print("   1  2  3  4  5  6  7  8  9")
     print("  ----------------------------")
-    row_iteration = 0
-    for row in mine:
-        print(row_iteration+1, end=" |")
-        col_iteration = 0
-        for col in row:
-            if mine[input_row + row_iteration - 1][input_col + col_iteration - 1] == "  ":
-                print(mine[input_row + row_iteration - 1][input_col + col_iteration - 1], end="|")
-            else:
-                print(mine[input_row + row_iteration - 1][input_col + col_iteration - 1], end="|")
-                break
-            col_iteration += 1
-        row_iteration += 1
-        print("")
+    input_row = [int(input_[:c:])-1]
+    input_col = [int(input_[c+1::])-1]
+    while len(input_row) > 0:
+        if mine[input_row[0]][input_col[0]] == "  ":
+            mine_[input_row[0]][input_col[0]] = " 0"
+            if 0 <= input_row[0] + 1 < 9:
+                if mine[input_row[0]+1][input_col[0]] == "  " and mine_[input_row[0]+1][input_col[0]] == "  ":
+                    input_row.append(input_row[0]+1)
+                    input_col.append(input_col[0])
+            if 0 <= input_col[0] + 1 < 9:
+                if mine[input_row[0]][input_col[0]+1] == "  " and mine_[input_row[0]][input_col[0]+1] == "  ":
+                    input_row.append(input_row[0])
+                    input_col.append(input_col[0]+1)
+            if 0 <= input_row[0] - 1 < 9:
+                if mine[input_row[0]-1][input_col[0]] == "  " and mine_[input_row[0]-1][input_col[0]] == "  ":
+                    input_row.append(input_row[0]-1)
+                    input_col.append(input_col[0])
+            if 0 <= input_col[0] - 1 < 9:
+                if mine[input_row[0]][input_col[0]-1] == "  " and mine_[input_row[0]][input_col[0]-1] == "  ":
+                    input_row.append(input_row[0])
+                    input_col.append(input_col[0]-1)
+
+
+
+            del input_row[0], input_col[0]
+
+    for x in mine_:
+        print(x)
+
+
 
 
 printing()
