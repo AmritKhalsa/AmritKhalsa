@@ -1,16 +1,15 @@
 import random
-import math
 
 mine = [
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
-    ["  ", "  ", "  ", "1 ", " 1", " 1", "1 ", "  ", "  "],
-    ["  ", "  ", " 1", "1 ", "  ", "  ", "1 ", "  ", "  "],
-    ["1 ", "1 ", "1 ", "  ", " 1", "  ", "1  ", "  1", "1  "],
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
-    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
     ]
 
 mine_ = [
@@ -37,21 +36,46 @@ for p in mine_:
     print("")
     i += 1
 
+input_ = input(">")
+m = int(input_.find(","))
+print("   1  2  3  4  5  6  7  8  9")
+print("  ----------------------------")
+input_row = [int(input_[:m:])-1]
+input_col = [int(input_[m+1::])-1]
+
+
+def rando(r, c):
+    set_ = {str(r) + str(c)}
+    gg = random.randint(15, 20)
+    rr = [r]
+    cc = [c]
+    while len(set_) != gg:
+        ll = random.randint(-1, 1)
+        k = random.randint(-1, 1)
+        mm = random.randint(0, len(rr)-1)
+        if 9 > rr[mm] + ll >= 0 and 9 > cc[mm]+k >= 0:
+            set_.add(str(rr[mm]+ll)+str(cc[mm]+k))
+            rr.append(rr[mm]+ll)
+            cc.append(cc[mm]+k)
+    bombs = []
+    while len(bombs) != 25:
+        rr = random.randint(0, 8)
+        cc = random.randint(0, 8)
+        if str(rr) + str(cc) not in set_:
+            if str(rr) + str(cc) not in bombs:
+                bombs.append(str(rr)+str(cc))
+                mine[rr][cc] = " *"
+
+
+rando(r=int(input_[:m:])-1, c=int(input_[m+1::])-1)
 
 
 def printing():
-    input_ = input(">")
-    c = int(input_.find(","))
-    print("   1  2  3  4  5  6  7  8  9")
-    print("  ----------------------------")
-    input_row = [int(input_[:c:])-1]
-    input_col = [int(input_[c+1::])-1]
     while len(input_row) > 0:
         if mine[input_row[0]][input_col[0]] == "  ":
             mine_[input_row[0]][input_col[0]] = " 0"
             if 0 <= input_row[0] + 1 < 9:
                 if mine[input_row[0]+1][input_col[0]] == "  " and mine_[input_row[0]+1][input_col[0]] == "  ":
-                    print([input_row[0] + 1], input_col[0])
                     input_row.append(input_row[0]+1)
                     input_col.append(input_col[0])
                 elif mine_[input_row[0] + 1][input_col[0]] == "  ":
@@ -100,9 +124,9 @@ def printing():
                     input_col.append(input_col[0]+1)
 
             del input_row[0], input_col[0]
-    i = 0
+    ii = 0
     for x in mine_:
-        print(i+1, end=" |")
+        print(ii+1, end=" |")
         for z in x:
             if z == " 0":
                 print("  ", end="|")
@@ -111,7 +135,8 @@ def printing():
             else:
                 print(z, end="|")
         print("")
-        i += 1
+        ii += 1
 
 
 printing()
+
