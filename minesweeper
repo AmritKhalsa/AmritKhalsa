@@ -65,6 +65,46 @@ def rando(r, c):
             if str(rr) + str(cc) not in bombs:
                 bombs.append(str(rr)+str(cc))
                 mine[rr][cc] = " *"
+                if rr != 8:
+                    if mine[rr+1][cc] == "  ":
+                        mine[rr+1][cc] = " 1"
+                    elif mine[rr+1][cc] != " *":
+                        mine[rr+1][cc] = " "+str(int(mine[rr+1][cc][1::])+1)
+                if rr != 0:
+                    if mine[rr-1][cc] == "  ":
+                        mine[rr-1][cc] = " 1"
+                    elif mine[rr-1][cc] != " *":
+                        mine[rr-1][cc] = " "+str(int(mine[rr-1][cc][1::])+1)
+                if cc != 0:
+                    if mine[rr][cc-1] == "  ":
+                        mine[rr][cc-1] = " 1"
+                    elif mine[rr][cc-1] != " *":
+                        mine[rr][cc-1] = " "+str(int(mine[rr][cc-1][1::])+1)
+                if cc != 8:
+                    if mine[rr][cc+1] == "  ":
+                        mine[rr][cc+1] = " 1"
+                    elif mine[rr][cc+1] != " *":
+                        mine[rr][cc+1] = " "+str(int(mine[rr][cc+1][1::])+1)
+                if rr != 0 and cc != 0:
+                    if mine[rr-1][cc-1] == "  ":
+                        mine[rr-1][cc-1] = " 1"
+                    elif mine[rr-1][cc-1] != " *":
+                        mine[rr-1][cc-1] = " "+str(int(mine[rr-1][cc-1][1::])+1)
+                if rr != 8 and cc != 8:
+                    if mine[rr+1][cc+1] == "  ":
+                        mine[rr+1][cc+1] = " 1"
+                    elif mine[rr+1][cc+1] != " *":
+                        mine[rr+1][cc+1] = " "+str(int(mine[rr+1][cc+1][1::])+1)
+                if rr != 8 and cc != 0:
+                    if mine[rr+1][cc-1] == "  ":
+                        mine[rr+1][cc-1] = " 1"
+                    elif mine[rr+1][cc-1] != " *":
+                        mine[rr+1][cc-1] = " "+str(int(mine[rr+1][cc-1][1::])+1)
+                if rr != 0 and cc != 8:
+                    if mine[rr - 1][cc + 1] == "  ":
+                        mine[rr - 1][cc + 1] = " 1"
+                    elif mine[rr - 1][cc + 1] != " *":
+                        mine[rr - 1][cc + 1] = " " + str(int(mine[rr - 1][cc + 1][1::]) + 1)
 
 
 rando(r=int(input_[:m:])-1, c=int(input_[m+1::])-1)
@@ -124,6 +164,7 @@ def printing():
                     input_col.append(input_col[0]+1)
 
             del input_row[0], input_col[0]
+
     ii = 0
     for x in mine_:
         print(ii+1, end=" |")
@@ -139,4 +180,3 @@ def printing():
 
 
 printing()
-
