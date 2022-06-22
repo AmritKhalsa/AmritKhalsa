@@ -1,15 +1,16 @@
 import random
+import math
 
 mine = [
-    ["  ", "  ", "1 ", "1  ", "  1", "  ", "1  ", "  ", "  "],
-    ["  ", "  ", "  ", " 1 ", "  ", "  ", "1  ", "  ", "  "],
-    ["  ", "  1", "  ", " 1 ", "  ", "1  ", "  ", "  ", "  "],
-    ["  ", "  1", " 1 ", "  ", "  ", " 1 ", " 1 ", "  ", "  "],
-    ["  ", "  ", " 1 ", "  ", "  ", "  ", " 1 ", "  ", "  "],
-    [" 1", " 1 ", " 1 ", "  1", " 1 ", " 1 ", "  1", "1  ", " 1 "],
-    ["  ", " 1 ", "  ", "  ", "1  ", "  ", "  ", "  ", "  "],
-    ["  ", "  1", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
-    ["  ", " 1 ", "  ", "  ", " 1 ", "  ", "  ", "  ", "  "]
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "1 ", " 1", " 1", "1 ", "  ", "  "],
+    ["  ", "  ", " 1", "1 ", "  ", "  ", "1 ", "  ", "  "],
+    ["1 ", "1 ", "1 ", "  ", " 1", "  ", "1  ", "  1", "1  "],
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
+    ["  ", "  ", "  ", "  ", " 1", "  ", "  ", "  ", "  "],
     ]
 
 mine_ = [
@@ -37,6 +38,7 @@ for p in mine_:
     i += 1
 
 
+
 def printing():
     input_ = input(">")
     c = int(input_.find(","))
@@ -49,29 +51,67 @@ def printing():
             mine_[input_row[0]][input_col[0]] = " 0"
             if 0 <= input_row[0] + 1 < 9:
                 if mine[input_row[0]+1][input_col[0]] == "  " and mine_[input_row[0]+1][input_col[0]] == "  ":
+                    print([input_row[0] + 1], input_col[0])
                     input_row.append(input_row[0]+1)
                     input_col.append(input_col[0])
+                elif mine_[input_row[0] + 1][input_col[0]] == "  ":
+                    mine_[input_row[0] + 1][input_col[0]] = mine[input_row[0]+1][input_col[0]]
             if 0 <= input_col[0] + 1 < 9:
                 if mine[input_row[0]][input_col[0]+1] == "  " and mine_[input_row[0]][input_col[0]+1] == "  ":
                     input_row.append(input_row[0])
                     input_col.append(input_col[0]+1)
+                elif mine_[input_row[0]][input_col[0]+1] == "  ":
+                    mine_[input_row[0]][input_col[0]+1] = mine[input_row[0]][input_col[0]+1]
             if 0 <= input_row[0] - 1 < 9:
                 if mine[input_row[0]-1][input_col[0]] == "  " and mine_[input_row[0]-1][input_col[0]] == "  ":
                     input_row.append(input_row[0]-1)
                     input_col.append(input_col[0])
+                elif mine_[input_row[0]-1][input_col[0]] == "  ":
+                    mine_[input_row[0] - 1][input_col[0]] = mine[input_row[0]-1][input_col[0]]
             if 0 <= input_col[0] - 1 < 9:
                 if mine[input_row[0]][input_col[0]-1] == "  " and mine_[input_row[0]][input_col[0]-1] == "  ":
                     input_row.append(input_row[0])
                     input_col.append(input_col[0]-1)
-
-
+                elif mine_[input_row[0]][input_col[0]-1] == "  ":
+                    mine_[input_row[0]][input_col[0]-1] = mine[input_row[0]][input_col[0]-1]
+            if 0 <= input_col[0] - 1 < 9 and 0 <= input_row[0] - 1 < 9:
+                if mine[input_row[0]-1][input_col[0]-1] != "  " and mine_[input_row[0]-1][input_col[0]-1] == "  ":
+                    mine_[input_row[0]-1][input_col[0]-1] = mine[input_row[0]-1][input_col[0]-1]
+                elif mine[input_row[0]-1][input_col[0]-1] == "  " and mine_[input_row[0]-1][input_col[0]-1] == "  ":
+                    input_row.append(input_row[0]-1)
+                    input_col.append(input_col[0]-1)
+            if 0 <= input_col[0] + 1 < 9 and 0 <= input_row[0] + 1 < 9:
+                if mine[input_row[0]+1][input_col[0]+1] != "  " and mine_[input_row[0]+1][input_col[0]+1] == "  ":
+                    mine_[input_row[0]+1][input_col[0]+1] = mine[input_row[0]+1][input_col[0]+1]
+                elif mine[input_row[0]+1][input_col[0]+1] == "  " and mine_[input_row[0]+1][input_col[0]+1] == "  ":
+                    input_row.append(input_row[0]+1)
+                    input_col.append(input_col[0]+1)
+            if 0 <= input_col[0] - 1 < 9 and 0 <= input_row[0] + 1 < 9:
+                if mine[input_row[0]+1][input_col[0]-1] != "  " and mine_[input_row[0]+1][input_col[0]-1] == "  ":
+                    mine_[input_row[0]+1][input_col[0]-1] = mine[input_row[0]+1][input_col[0]-1]
+                elif mine[input_row[0]+1][input_col[0]-1] == "  " and mine_[input_row[0]+1][input_col[0]-1] == "  ":
+                    input_row.append(input_row[0]+1)
+                    input_col.append(input_col[0]-1)
+            if 0 <= input_col[0] + 1 < 9 and 0 <= input_row[0] - 1 < 9:
+                if mine[input_row[0]-1][input_col[0]+1] != "  " and mine_[input_row[0]-1][input_col[0]+1] == "  ":
+                    mine_[input_row[0]-1][input_col[0]+1] = mine[input_row[0]-1][input_col[0]+1]
+                elif mine[input_row[0]-1][input_col[0]+1] == "  " and mine_[input_row[0]-1][input_col[0]+1] == "  ":
+                    input_row.append(input_row[0]-1)
+                    input_col.append(input_col[0]+1)
 
             del input_row[0], input_col[0]
-
+    i = 0
     for x in mine_:
-        print(x)
-
-
+        print(i+1, end=" |")
+        for z in x:
+            if z == " 0":
+                print("  ", end="|")
+            elif z == "  ":
+                print("- ", end="|")
+            else:
+                print(z, end="|")
+        print("")
+        i += 1
 
 
 printing()
