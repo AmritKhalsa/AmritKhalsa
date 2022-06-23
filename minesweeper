@@ -1,7 +1,6 @@
 import random
 import time
 start_time = time.time()
-print("--- %s seconds ---" % (time.time() - start_time))
 
 mine = [
     ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
@@ -111,7 +110,7 @@ def start():
             g += 1
         print("")
         i += 1
-    input__ = input(">")
+    input__ = input("Input as row, col>")
     mm = int(input__.find(","))
     rando(r=int(input__[:mm:]) - 1, c=int(input__[mm + 1::]) - 1)
     return input__
@@ -236,4 +235,4 @@ while True:
     else:
         print("You lost")
         break
-
+        
