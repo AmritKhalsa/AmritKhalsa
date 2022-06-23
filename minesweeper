@@ -208,13 +208,16 @@ printing(input_=start())
 while True:
     inp_ = input(">")
     m = int(inp_.find(","))
-    print("   1  2  3  4  5  6  7  8  9")
-    print("  ----------------------------")
+
     input_ro = [int(inp_[:m:]) - 1]
     input_co = [int(inp_[m + 1::]) - 1]
     if mine[input_ro[0]][input_co[0]] == "  ":
+        print("   1  2  3  4  5  6  7  8  9")
+        print("  ----------------------------")
         printing(input_=inp_)
     elif mine[input_ro[0]][input_co[0]] != " *":
+        print("   1  2  3  4  5  6  7  8  9")
+        print("  ----------------------------")
         mine_[input_ro[0]][input_co[0]] = mine[input_ro[0]][input_co[0]]
         ii = 0
         win = 0
@@ -233,6 +236,6 @@ while True:
         if win == 25:
             end()
     else:
-        print("You lost")
+        print("Oh No! You lost")
+        print("it took you --- %s seconds ---" % (time.time() - start_time) + "to lose")
         break
-        
