@@ -1,4 +1,7 @@
 import random
+import time
+start_time = time.time()
+print("--- %s seconds ---" % (time.time() - start_time))
 
 mine = [
     ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
@@ -24,29 +27,17 @@ mine_ = [
     ["  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  "],
     ]
 
-print("   1  2  3  4  5  6  7  8  9")
-print("  ----------------------------")
-i = 0
-for p in mine_:
-    print(i+1, end=" |")
-    g = 0
-    while g < 9:
-        print(mine_[i][g], end="|")
-        g += 1
-    print("")
-    i += 1
 
-input_ = input(">")
-m = int(input_.find(","))
-print("   1  2  3  4  5  6  7  8  9")
-print("  ----------------------------")
-input_row = [int(input_[:m:])-1]
-input_col = [int(input_[m+1::])-1]
+def end():
+    print("Congratulations you win!!!")
+    print("it took you --- %s seconds ---" % (time.time() - start_time) + "to win")
+    quit()
 
 
 def rando(r, c):
-    set_ = {str(r) + str(c)}
-    gg = random.randint(15, 20)
+    set_ = {str(r) + str(c), str(r+1)+str(c), str(r-1)+str(c), str(r)+str(c+1), str(r)+str(c-1), str(r-1)+str(c-1),
+            str(r+1)+str(c+1), str(r+1)+str(c-1), str(r-1)+str(c+1)}
+    gg = random.randint(20, 25)
     rr = [r]
     cc = [c]
     while len(set_) != gg:
@@ -107,35 +98,63 @@ def rando(r, c):
                         mine[rr - 1][cc + 1] = " " + str(int(mine[rr - 1][cc + 1][1::]) + 1)
 
 
-rando(r=int(input_[:m:])-1, c=int(input_[m+1::])-1)
+def start():
+    print("   1  2  3  4  5  6  7  8  9")
+    print("  ----------------------------")
+    i = 0
+    for p in mine_:
+
+        print(i+1, end=" |")
+        g = 0
+        while g < 9:
+            print(mine_[i][g], end="|")
+            g += 1
+        print("")
+        i += 1
+    input__ = input(">")
+    mm = int(input__.find(","))
+    rando(r=int(input__[:mm:]) - 1, c=int(input__[mm + 1::]) - 1)
+    return input__
 
 
-def printing():
+def printing(input_):
+    mmm = int(input_.find(","))
+    input_row = [int(input_[:mmm:]) - 1]
+    input_col = [int(input_[mmm + 1::]) - 1]
+    arr = set({str(int(input_[:mmm:]) - 1) + str(int(input_[mmm + 1::]) - 1)})
     while len(input_row) > 0:
         if mine[input_row[0]][input_col[0]] == "  ":
             mine_[input_row[0]][input_col[0]] = " 0"
             if 0 <= input_row[0] + 1 < 9:
                 if mine[input_row[0]+1][input_col[0]] == "  " and mine_[input_row[0]+1][input_col[0]] == "  ":
-                    input_row.append(input_row[0]+1)
-                    input_col.append(input_col[0])
+                    if str(input_row[0]+1)+str(input_col[0]) not in arr:
+                        input_row.append(input_row[0]+1)
+                        input_col.append(input_col[0])
+                        arr.add(str(input_row[0] + 1) + str(input_col[0]))
                 elif mine_[input_row[0] + 1][input_col[0]] == "  ":
                     mine_[input_row[0] + 1][input_col[0]] = mine[input_row[0]+1][input_col[0]]
             if 0 <= input_col[0] + 1 < 9:
                 if mine[input_row[0]][input_col[0]+1] == "  " and mine_[input_row[0]][input_col[0]+1] == "  ":
-                    input_row.append(input_row[0])
-                    input_col.append(input_col[0]+1)
+                    if str(input_row[0])+str(input_col[0]+1) not in arr:
+                        input_row.append(input_row[0])
+                        input_col.append(input_col[0]+1)
+                        arr.add(str(input_row[0]) + str(input_col[0]+1))
                 elif mine_[input_row[0]][input_col[0]+1] == "  ":
                     mine_[input_row[0]][input_col[0]+1] = mine[input_row[0]][input_col[0]+1]
             if 0 <= input_row[0] - 1 < 9:
                 if mine[input_row[0]-1][input_col[0]] == "  " and mine_[input_row[0]-1][input_col[0]] == "  ":
-                    input_row.append(input_row[0]-1)
-                    input_col.append(input_col[0])
+                    if str(input_row[0] - 1) + str(input_col[0]) not in arr:
+                        input_row.append(input_row[0] - 1)
+                        input_col.append(input_col[0])
+                        arr.add(str(input_row[0] - 1) + str(input_col[0]))
                 elif mine_[input_row[0]-1][input_col[0]] == "  ":
                     mine_[input_row[0] - 1][input_col[0]] = mine[input_row[0]-1][input_col[0]]
             if 0 <= input_col[0] - 1 < 9:
                 if mine[input_row[0]][input_col[0]-1] == "  " and mine_[input_row[0]][input_col[0]-1] == "  ":
-                    input_row.append(input_row[0])
-                    input_col.append(input_col[0]-1)
+                    if str(input_row[0]) + str(input_col[0] - 1) not in arr:
+                        input_row.append(input_row[0])
+                        input_col.append(input_col[0] - 1)
+                        arr.add(str(input_row[0]) + str(input_col[0] - 1))
                 elif mine_[input_row[0]][input_col[0]-1] == "  ":
                     mine_[input_row[0]][input_col[0]-1] = mine[input_row[0]][input_col[0]-1]
             if 0 <= input_col[0] - 1 < 9 and 0 <= input_row[0] - 1 < 9:
@@ -162,21 +181,59 @@ def printing():
                 elif mine[input_row[0]-1][input_col[0]+1] == "  " and mine_[input_row[0]-1][input_col[0]+1] == "  ":
                     input_row.append(input_row[0]-1)
                     input_col.append(input_col[0]+1)
-
             del input_row[0], input_col[0]
 
-    ii = 0
-    for x in mine_:
-        print(ii+1, end=" |")
-        for z in x:
-            if z == " 0":
+    print("   1  2  3  4  5  6  7  8  9")
+    print("  ----------------------------")
+    iii = 0
+    winn = 0
+    for xx in mine_:
+        print(iii+1, end=" |")
+        for zz in xx:
+            if zz == " 0":
                 print("  ", end="|")
-            elif z == "  ":
-                print("- ", end="|")
+            elif zz == "  ":
+                winn += 1
+                print(" -", end="|")
             else:
-                print(z, end="|")
+                print(zz, end="|")
         print("")
-        ii += 1
+        iii += 1
+    if winn == 25:
+        end()
 
 
-printing()
+printing(input_=start())
+
+
+while True:
+    inp_ = input(">")
+    m = int(inp_.find(","))
+    print("   1  2  3  4  5  6  7  8  9")
+    print("  ----------------------------")
+    input_ro = [int(inp_[:m:]) - 1]
+    input_co = [int(inp_[m + 1::]) - 1]
+    if mine[input_ro[0]][input_co[0]] == "  ":
+        printing(input_=inp_)
+    elif mine[input_ro[0]][input_co[0]] != " *":
+        mine_[input_ro[0]][input_co[0]] = mine[input_ro[0]][input_co[0]]
+        ii = 0
+        win = 0
+        for x in mine_:
+            print(ii + 1, end=" |")
+            for z in x:
+                if z == " 0":
+                    print("  ", end="|")
+                elif z == "  ":
+                    win += 1
+                    print(" -", end="|")
+                else:
+                    print(z, end="|")
+            print("")
+            ii += 1
+        if win == 25:
+            end()
+    else:
+        print("You lost")
+        break
+
