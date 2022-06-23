@@ -48,7 +48,7 @@ def rando(r, c):
             rr.append(rr[mm]+ll)
             cc.append(cc[mm]+k)
     bombs = []
-    while len(bombs) != 25:
+    while len(bombs) != 10:
         rr = random.randint(0, 8)
         cc = random.randint(0, 8)
         if str(rr) + str(cc) not in set_:
@@ -190,12 +190,12 @@ def printing(input_):
                 print("  ", end="|")
             elif zz == "  ":
                 winn += 1
-                print(" -", end="|")
+                print("--", end="|")
             else:
                 print(zz, end="|")
         print("")
         iii += 1
-    if winn == 25:
+    if winn == 10:
         end()
 
 
@@ -209,8 +209,6 @@ while True:
     input_ro = [int(inp_[:m:]) - 1]
     input_co = [int(inp_[m + 1::]) - 1]
     if mine[input_ro[0]][input_co[0]] == "  ":
-        print("   1  2  3  4  5  6  7  8  9")
-        print("  ----------------------------")
         printing(input_=inp_)
     elif mine[input_ro[0]][input_co[0]] != " *":
         print("   1  2  3  4  5  6  7  8  9")
@@ -225,15 +223,23 @@ while True:
                     print("  ", end="|")
                 elif z == "  ":
                     win += 1
-                    print(" -", end="|")
+                    print("--", end="|")
                 else:
                     print(z, end="|")
             print("")
             ii += 1
-        if win == 25:
+        if win == 10:
             end()
     else:
         print("Oh No! You lost")
         print("it took you --- %s seconds ---" % (time.time() - start_time) + "to lose")
-        break
-
+        print("   1  2  3  4  5  6  7  8  9")
+        print("  ----------------------------")
+        i = 1
+        for x in mine:
+            print(i, end=" |")
+            for n in x:
+                print(n, end="|")
+            print("")
+            i += 1
+        quit()
