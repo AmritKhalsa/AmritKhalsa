@@ -102,12 +102,9 @@ def start():
     print("  ----------------------------")
     i = 0
     for p in mine_:
-
         print(i+1, end=" |")
-        g = 0
-        while g < 9:
-            print(mine_[i][g], end="|")
-            g += 1
+        for pp in p:
+            print(pp, end="|")
         print("")
         i += 1
     input__ = input("Input as row, col>")
@@ -120,7 +117,7 @@ def printing(input_):
     mmm = int(input_.find(","))
     input_row = [int(input_[:mmm:]) - 1]
     input_col = [int(input_[mmm + 1::]) - 1]
-    arr = set({str(int(input_[:mmm:]) - 1) + str(int(input_[mmm + 1::]) - 1)})
+    arr = {str(int(input_[:mmm:]) - 1) + str(int(input_[mmm + 1::]) - 1)}
     while len(input_row) > 0:
         if mine[input_row[0]][input_col[0]] == "  ":
             mine_[input_row[0]][input_col[0]] = " 0"
@@ -239,3 +236,4 @@ while True:
         print("Oh No! You lost")
         print("it took you --- %s seconds ---" % (time.time() - start_time) + "to lose")
         break
+
