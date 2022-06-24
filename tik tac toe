@@ -58,11 +58,14 @@ def printing(input_, letter):
 
 
 def winner(cycle):
+    if str(1+cycle) in list_ and str(2+cycle) in list_ and str(3+cycle) in list_:
+            return True
+    if str(4+cycle) in list_ and str(5+cycle) in list_ and str(6+cycle) in list_:
+            return True
+    if str(7+cycle) in list_ and str(8+cycle) in list_ and str(9+cycle) in list_:
+            return True
     for i in range(1, 4):
         i = i + cycle
-        val = (3*i) - 2 + cycle
-        if str(val) in list_ and str(val+1) in list_ and str(val+2) in list_:
-            return True
         if str(i) in list_ and str(i+3) in list_ and str(i+6) in list_:
             return True
         if i == 1 or i == 11:
