@@ -1,0 +1,108 @@
+import time
+
+Game_ = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+for x in Game_:
+    print(x)
+intro = input("DO YOU WANT TO GO FIRST OR LAST: TYPE 1 for first or 2 for last > ")
+
+Game = [[" ", " ", " "],
+        [" ", " ", " "],
+        [" ", " ", " "]]
+list_ = []
+
+
+def player(cycle):
+    while True:
+        input_ = input("Where do you want to place your X: Valid Inputs are 1-9: ")
+        if input_ not in "123456789" or len(input_) != 1:
+            print("Invalid input! Try Again")
+        elif input_ in list_ or str(int(input_)+10) in list_:
+            print("There is already a value there")
+        else:
+            break
+    printing(input_=input_, letter=cycle)
+
+
+def printing(input_, letter):
+    row = 0
+    iteration = 1
+    for c in Game:
+        col = 0
+        for z in c:
+            if str(iteration) == input_:
+                Game[row][col] = str(letter)
+            iteration += 1
+            col += 1
+        row += 1
+    tt = 0
+    if letter == "X":
+        list_.append(input_)
+    else:
+        list_.append(str(int(input_) + 10))
+    for g in Game:
+        t = 0
+        for n in g:
+            if tt < 2:
+                if t < 2:
+                    print("_"+n+"_", end="|")
+                else:
+                    print("_"+n+"_")
+            else:
+                if t < 2:
+                    print(" "+n+" ", end="|")
+                else:
+                    print(" "+n+" ")
+            t += 1
+        tt += 1
+    time.sleep(1)
+
+
+def winner(cycle):
+    for i in range(1, 4):
+        i = i + cycle
+        val = (3*i) - 2 + cycle
+        if str(val) in list_ and str(val+1) in list_ and str(val+2) in list_:
+            return True
+        if str(i) in list_ and str(i+3) in list_ and str(i+6) in list_:
+            return True
+        if i == 1 or i == 11:
+            if str(i) in list_ and str(i+4) in list_ and str(i+8) in list_:
+                return True
+        if i == 3 or i == 13:
+            if str(i) in list_ and str(i+2) in list_ and str(i+4) in list_:
+                return True
+
+
+def computer():
+    g = False
+    if intro == "2" and len(list_) == 0:
+        printing("1", "O")
+    if intro == "1" and len(list_) == 1 and "5" not in list_:
+        printing("5", "O")
+    if intro == "1" and len(list_) == 3 and '15' in list_:
+        if '1' in list_ and '9' in list_:
+            printing('4', 'O')
+        elif '3' in list_ and '7' in list_:
+            printing('4', 'O')
+        else:
+            g = True
+    if g:
+        
+
+while True:
+    if intro == "1":
+        player(cycle="X")
+        computer()
+    else:
+        computer()
+        player(cycle="0")
+    if winner(cycle=10):
+        print("O WINS!!")
+        break
+    if winner(cycle=0):
+        print("X WINS!!")
+        break
