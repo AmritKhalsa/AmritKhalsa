@@ -1,4 +1,4 @@
-
+import random
 Game_ = [
     [1, 2, 3],
     [4, 5, 6],
@@ -87,12 +87,20 @@ def winner(cycle):
 
 
 def computer():
+    assigning()
     if intro == "2" and len(list_) == 0:
         printing("1", "O")
         return None
     if intro == "1" and len(list_) == 1 and "5" not in list_:
         printing("5", "O")
         return None
+    elif intro == "1" and len(list_) == 1 and '15' not in list_:
+        printing("1", "O")
+        return None
+    if intro == "1" and len(list_) == 3 and '15' not in list_:
+        if '9' in list_:
+            printing("7", "O")
+            return None
     if intro == "1" and len(list_) == 3 and '15' in list_:
         if '1' in list_ and '9' in list_:
             printing('4', 'O')
@@ -156,6 +164,21 @@ def computer():
             else:
                 printing("3", "O")
                 return None
+    lst_ = []
+    for i in list_:
+        i = int(i)
+        if i > 9:
+            i -= 10
+        lst_.append(i)
+    while True:
+        ran = random.randint(1, 9)
+        if ran not in lst_:
+            break
+    printing(str(ran), 'O')
+
+
+def assigning():
+    return None
 
 
 while True:
@@ -165,3 +188,4 @@ while True:
     else:
         computer()
         player(cycle="0")
+        
