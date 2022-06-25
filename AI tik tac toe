@@ -100,10 +100,62 @@ def computer():
         elif '3' in list_ and '7' in list_:
             printing('4', 'O')
             return None
-    if 
-
-
-
+        if "1" in list_:
+            if "8" in list_ or "6" in list_:
+                printing('9', 'O')
+                return None
+        if "3" in list_:
+            if "8" in list_ or "4" in list_:
+                printing('7', 'O')
+                return None
+        elif "7" in list_:
+            if "2" in list_ or "6" in list_:
+                printing('3', 'O')
+                return None
+        elif "9" in list_:
+            if "2" in list_ or "4" in list_:
+                printing("1", 'O')
+                return None
+        if "2" in list_:
+            if "1" in list_ or "6" in list_ or "7" in list_:
+                printing("3", "O")
+                return None
+            elif "3" in list_ or "4" in list_ or "9" in list_:
+                printing("1", "O")
+                return None
+            else:
+                printing("1", "O")
+                return None
+        if "8" in list_:
+            if "7" in list_ or "6" in list_ or "1" in list_:
+                printing("9", "O")
+                return None
+            elif "9" in list_ or "4" in list_ or "3" in list_:
+                printing("7", "O")
+                return None
+            else:
+                printing("9", "O")
+                return None
+        if "4" in list_:
+            if "1" in list_ or "8" in list_ or "3" in list_:
+                printing("7", "O")
+                return None
+            elif "7" in list_ or "2" in list_ or "9" in list_:
+                printing("1", "O")
+                return None
+            else:
+                printing("7", "O")
+                return None
+        if "6" in list_:
+            if "9" in list_ or "2" in list_ or "7" in list_:
+                printing("3", "O")
+                return None
+            elif "3" in list_ or "8" in list_ or "1" in list_:
+                printing("9", "O")
+                return None
+            else:
+                printing("3", "O")
+                return None
 
 
 while True:
