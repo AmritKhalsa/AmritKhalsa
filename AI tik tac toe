@@ -1,4 +1,5 @@
 import random
+import time
 Game_ = [
     [1, 2, 3],
     [4, 5, 6],
@@ -23,7 +24,7 @@ def player(cycle):
         input_ = input("Where do you want to place your X: Valid Inputs are 1-9: ")
         if input_ not in "123456789" or len(input_) != 1:
             print("Invalid input! Try Again")
-        elif input_ in list_ or str(int(input_)+10) in list_:
+        elif input_ in list_ or str(int(input_) + 10) in list_:
             print("There is already a value there")
         else:
             break
@@ -51,14 +52,14 @@ def printing(input_, letter):
         for n in g:
             if tt < 2:
                 if t < 2:
-                    print("_"+n+"_", end="|")
+                    print("_" + n + "_", end="|")
                 else:
-                    print("_"+n+"_")
+                    print("_" + n + "_")
             else:
                 if t < 2:
-                    print(" "+n+" ", end="|")
+                    print(" " + n + " ", end="|")
                 else:
-                    print(" "+n+" ")
+                    print(" " + n + " ")
             t += 1
         tt += 1
     if winner(cycle=10):
@@ -67,7 +68,7 @@ def printing(input_, letter):
     if winner(cycle=0):
         print("X WINS!!")
         quit()
-    print(input_)
+    time.sleep(1)
 
 
 def winner(cycle):
@@ -91,8 +92,11 @@ def winner(cycle):
 
 
 def computer():
+    if len(list_) >= 9:
+        print("Its a Tie!")
+        quit()
     if not assigning():
-        print(assigning())
+        pass
     else:
         return None
     if intro == "2" and len(list_) == 0:
@@ -185,33 +189,80 @@ def computer():
 
 
 def assigning():
+    ls = [1, 4, 7]
+    for g in ls:
+        i = g + 10
+        if str(i) in list_ and str(i + 1) in list_ and str(i + 2) not in list_ and str(i + 2 - 10) not in list_:
+            printing(str(g + 2), 'O')
+            return True
+        if str(i + 1) in list_ and str(i + 2) in list_ and str(i) not in list_ and str(i - 10) not in list_:
+            printing(str(g), 'O')
+            return True
+        if str(i) in list_ and str(i + 2) in list_ and str(i + 1) not in list_ and str(i + 1 - 10) not in list_:
+            printing(str(g + 1), 'O')
+            return True
     for i in range(11, 14):
-        if str(i) in list_ and str(i+1) in list_:
-            printing(str(i+2), 'O')
+        if str(i) in list_ and str(i + 3) in list_ and str(i + 6) not in list_ and str(i + 6 - 10) not in list_:
+            printing(str(i + 6 - 10), 'O')
             return True
-            break
-        if str(i + 1) in list_ and str(i + 2) in list_:
+        if str(i) in list_ and str(i + 6) in list_ and str(i + 3) not in list_ and str(i + 3 - 10) not in list_:
+            printing(str(i + 3 - 10), 'O')
+            return True
+        if str(i+6) in list_ and str(i + 3) in list_ and str(i) not in list_ and str(i - 10) not in list_:
+            printing(str(i - 10), 'O')
+            return True
+    for i in ls:
+        if str(i) in list_ and str(i + 1) in list_ and str(i + 2) not in list_ and str(i+2+10) not in list_:
+            printing(str(i + 2), 'O')
+            return True
+        if str(i + 1) in list_ and str(i + 2) in list_ and str(i) not in list_ and str(i+10) not in list_:
             printing(str(i), 'O')
             return True
-            break
-        if str(i) in list_ and str(i+2) in list_:
-            printing(str(i+1), 'O')
+        if str(i) in list_ and str(i + 2) in list_ and str(i + 1) not in list_ and str(i+1+10) not in list_:
+            printing(str(i + 1), 'O')
             return True
-            break
     for i in range(1, 4):
-        if str(i) in list_ and str(i+1) in list_:
-            printing(str(i+2), 'O')
+        if str(i) in list_ and str(i + 3) in list_ and str(i + 6) not in list_ and str(i + 6 + 10) not in list_:
+            printing(str(i + 6), 'O')
             return True
-            break
-        if str(i + 1) in list_ and str(i + 2) in list_:
+        if str(i) in list_ and str(i + 6) in list_ and str(i + 3) not in list_ and str(i + 3 + 10) not in list_:
+            printing(str(i + 3), 'O')
+            return True
+        if str(i+6) in list_ and str(i + 3) in list_ and str(i) not in list_ and str(i + 10) not in list_:
             printing(str(i), 'O')
             return True
-            break
-        if str(i) in list_ and str(i+2) in list_:
-            printing(str(i+1), 'O')
-            return True
-            break
-    
+    if '11' in list_ and '15' in list_ and '9' not in list_ and '19' not in list_:
+        printing('9', 'O')
+        return True
+    if '15' in list_ and '19' in list_ and '11' not in list_ and '1' not in list_:
+        printing('1', 'O')
+    if '11' in list_ and '19' in list_ and '15' not in list_ and '5' not in list_:
+        printing('5', 'O')
+        return True
+    if '13' in list_ and '15' in list_ and '17' not in list_ and '7' not in list_:
+        printing('7', 'O')
+        return True
+    if '15' in list_ and '17' in list_ and '13' not in list_ and '3' not in list_:
+        printing('3', 'O')
+    if '13' in list_ and '17' in list_ and '15' not in list_ and '5' not in list_:
+        printing('5', 'O')
+        return True
+    if '1' in list_ and '5' in list_ and '9' not in list_ and '19' not in list_:
+        printing('9', 'O')
+        return True
+    if '5' in list_ and '9' in list_ and '1' not in list_ and '11' not in list_:
+        printing('1', 'O')
+    if '1' in list_ and '9' in list_ and '5' not in list_ and '15' not in list_:
+        printing('5', 'O')
+        return True
+    if '3' in list_ and '5' in list_ and '7' not in list_ and '17' not in list_:
+        printing('7', 'O')
+        return True
+    if '5' in list_ and '7' in list_ and '3' not in list_ and '13' not in list_:
+        printing('3', 'O')
+    if '3' in list_ and '7' in list_ and '5' not in list_ and '15' not in list_:
+        printing('5', 'O')
+        return True
 
     return False
 
@@ -223,4 +274,3 @@ while True:
     else:
         computer()
         player(cycle="0")
-
