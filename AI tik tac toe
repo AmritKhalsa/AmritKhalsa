@@ -1,5 +1,6 @@
 import random
 import time
+
 Game_ = [
     [1, 2, 3],
     [4, 5, 6],
@@ -20,6 +21,9 @@ list_ = []
 
 
 def player(cycle):
+    if len(list_) >= 9:
+        print("Its a Tie!")
+        quit()
     while True:
         input_ = input("Where do you want to place your X: Valid Inputs are 1-9: ")
         if input_ not in "123456789" or len(input_) != 1:
