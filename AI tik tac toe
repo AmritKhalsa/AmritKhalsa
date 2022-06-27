@@ -95,12 +95,13 @@ def computer():
     if len(list_) >= 9:
         print("Its a Tie!")
         quit()
-    if not assigning():
-        pass
-    else:
+    if assigning():
         return None
     if intro == "2" and len(list_) == 0:
-        printing("1", "O")
+        printing('1', 'O')
+        return None
+    if intro == "2" and len(list_) == 2 and "5" in list_:
+        printing("9", "O")
         return None
     if intro == "1" and len(list_) == 1 and "5" not in list_:
         printing("5", "O")
@@ -260,10 +261,10 @@ def assigning():
         return True
     if '5' in list_ and '7' in list_ and '3' not in list_ and '13' not in list_:
         printing('3', 'O')
+        return True
     if '3' in list_ and '7' in list_ and '5' not in list_ and '15' not in list_:
         printing('5', 'O')
         return True
-
     return False
 
 
@@ -273,4 +274,4 @@ while True:
         computer()
     else:
         computer()
-        player(cycle="0")
+        player(cycle="X")
