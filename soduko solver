@@ -1,0 +1,50 @@
+s = [
+    [2, 5, 0, 0, 3, 0, 9, 0, 1],
+    [0, 1, 0, 0, 0, 4, 0, 0, 0],
+    [4, 0, 7, 0, 0, 0, 2, 0, 8],
+    [0, 0, 5, 2, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 9, 8, 1, 0, 0],
+    [0, 4, 0, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 3, 6, 0, 0, 7, 2],
+    [0, 7, 0, 0, 0, 0, 0, 0, 3],
+    [9, 0, 3, 0, 0, 0, 6, 0, 4]
+]
+
+
+def solve(row, col, square_row, square_col):
+    lst1 = [_ for _ in s[row] if _ != 0]
+    lst2 = list(map(lambda l: l[col], s))
+    lst3 = list()
+    for x in range(-1, 2):
+        for y in range(-1, 2):
+            lst3.append(s[square_row+x][square_col+y])
+    lst = set(lst1 + [_ for _ in lst2 if _ != 0] + [_ for _ in lst3 if _ != 0])
+    if len(lst) == 8:
+        for i in range(1, 10):
+            if i not in lst:
+                s[row][col] = i
+                return i
+    return False
+
+
+while True:
+    break_point = True
+    for v in range(0, 9):
+        for c in range(0, 9):
+            if s[v][c] == 0:
+                val = solve(row=v, col=c, square_row=((v//3) * 3) + 1, square_col=((c//3) * 3) + 1)
+                if val:
+                    break_point = False
+    g = False
+    for __ in s:
+        if 0 in __:
+            g = True
+    if not g:
+        break
+    if break_point:
+        print("No solution exists")
+        quit()
+
+for _ in s:
+    print(_)
+
