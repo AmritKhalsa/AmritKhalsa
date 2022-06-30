@@ -47,4 +47,3 @@ while True:
 
 for _ in s:
     print(_)
-
