@@ -1,14 +1,18 @@
 s = [
-    [2, 5, 0, 0, 3, 0, 9, 0, 1],
-    [0, 1, 0, 0, 0, 4, 0, 0, 0],
-    [4, 0, 7, 0, 0, 0, 2, 0, 8],
-    [0, 0, 5, 2, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 9, 8, 1, 0, 0],
-    [0, 4, 0, 0, 0, 3, 0, 0, 0],
-    [0, 0, 0, 3, 6, 0, 0, 7, 2],
-    [0, 7, 0, 0, 0, 0, 0, 0, 3],
-    [9, 0, 3, 0, 0, 0, 6, 0, 4]
+    [3, 9, 0, 0, 5, 0, 0, 0, 0],
+    [0, 0, 0, 2, 0, 0, 0, 0, 5],
+    [0, 0, 0, 7, 1, 9, 0, 8, 0],
+
+    [0, 5, 0, 0, 6, 8, 0, 0, 0],
+    [2, 0, 6, 0, 0, 3, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 4],
+
+    [5, 0, 0, 0, 0, 0, 0, 0, 0],
+    [6, 7, 0, 1, 0, 5, 0, 4, 0],
+    [1, 0, 9, 0, 0, 0, 2, 0, 0]
 ]
+global n
+n = list()
 
 
 def solve(row, col, square_row, square_col):
@@ -17,33 +21,78 @@ def solve(row, col, square_row, square_col):
     lst3 = list()
     for x in range(-1, 2):
         for y in range(-1, 2):
-            lst3.append(s[square_row+x][square_col+y])
+            lst3.append(s[square_row + x][square_col + y])
     lst = set(lst1 + [_ for _ in lst2 if _ != 0] + [_ for _ in lst3 if _ != 0])
-    if len(lst) == 8:
+    if len(lst) == 9:
+        return False
+
+    def check():
+        ls = [row, col, square_row, square_col]
         for i in range(1, 10):
             if i not in lst:
-                s[row][col] = i
-                return i
+                ls.append(i)
+        n.append(ls)
+
+    check()
+
+
+for v in range(0, 9):
+    for c in range(0, 9):
+        if s[v][c] == 0:
+            solve(row=v, col=c, square_row=((v // 3) * 3) + 1, square_col=((c // 3) * 3) + 1)
+
+
+def solv(row, col, square_row, square_col, num):
+    lst1 = [_ for _ in s[row] if _ != 0]
+    lst2 = list(map(lambda l: l[col], s))
+    lst3 = list()
+    for x in range(-1, 2):
+        for y in range(-1, 2):
+            lst3.append(s[square_row + x][square_col + y])
+    lst = set(lst1 + [_ for _ in lst2 if _ != 0] + [_ for _ in lst3 if _ != 0])
+    if num in lst:
+        return False
+    if len(lst) == 9:
+        return False
+    s[row][col] = num
+
+    return True
+
+
+list_ = list()
+term = 0
+while term < len(n) - 1:
+    list_.append(n[term][4:])
+    term += 1
+
+
+def check(l, g, delete):
+    if delete:
+        s[n[g][0]][n[g][1]] = 0
+        return None
+    if solv(row=n[g][0], col=n[g][1], square_row=n[g][2], square_col=n[g][3], num=l):
+        return True
+    solv(row=n[g][0], col=n[g][1], square_row=n[g][2], square_col=n[g][3], num=0)
     return False
 
 
-while True:
-    break_point = True
-    for v in range(0, 9):
-        for c in range(0, 9):
-            if s[v][c] == 0:
-                val = solve(row=v, col=c, square_row=((v//3) * 3) + 1, square_col=((c//3) * 3) + 1)
-                if val:
-                    break_point = False
-    g = False
-    for __ in s:
-        if 0 in __:
-            g = True
-    if not g:
-        break
-    if break_point:
-        print("No solution exists")
-        quit()
+def c(e):
+    for x in list_[e]:
+        if e <= len(list_) - 1:
+            if check(x, e, delete=False):
+                if e != len(list_) - 1:
+                    c(e + 1)
+    if e == len(list_)-1:
+        solve(row=8, col=8, square_row=7, square_col=7)
+        for x in s:
+            print(x)
 
-for _ in s:
-    print(_)
+        quit()
+    check(x, g=e - 1, delete=True)
+
+
+c(0)
+
+print("false")
+
+
