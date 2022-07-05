@@ -1,3 +1,6 @@
+import time
+start = time. process_time()
+
 s = [[3, 9, 0, 0, 5, 0, 0, 0, 0],
      [0, 0, 0, 2, 0, 0, 0, 0, 5],
      [0, 0, 0, 7, 1, 9, 0, 8, 0],
@@ -36,6 +39,7 @@ def repeat(e):
     if e == len(list_)-1:
         for num in s:
             print(num)
+        print("process done in " + str(time.process_time() - start) + " seconds")
         print("")
     s[n[e-1][0]][n[e-1][1]] = 0
 
@@ -46,4 +50,3 @@ for v in range(0, 9):
             solve(row=v, col=c, square_row=((v // 3) * 3) + 1, square_col=((c // 3) * 3) + 1, boolean=False, num=None)
 list_ = [_[4::] for _ in n]
 repeat(0)
-
