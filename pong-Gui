@@ -54,4 +54,3 @@ class Pong:
         return x, y
 
 
-
