@@ -1,0 +1,52 @@
+class Pong:
+    def __init__(self, canvas, width, height, boolean):
+        self.canvas = canvas
+        self.height = height
+        self.width = width
+        if boolean == 'pass':
+            pass
+        elif boolean:
+            self.pong = canvas.create_rectangle(50, 0, self.width/60, self.height/6, fill='white')
+        else:
+            self.pong = canvas.create_rectangle(self.width - self.width/60, 0, self.width-self.width/30, self.height/6,
+                                                fill='white')
+
+    def square(self):
+        for x in range(-1, 16):
+            x = x * 2
+            self.canvas.create_rectangle(round(self.width / 2 - self.width / 120), round(0 + self.width / 60 * x),
+                                         round(self.width / 2 + self.width / 120),
+                                         round(self.width / 60 + self.width/60 * x),  fill="white")
+
+    def move_down(self):
+        coord = self.canvas.coords(self.pong)
+        if round(coord[3]+1) <= self.height:
+            self.canvas.move(self.pong, 0, round(self.height/18))
+
+    def move_up(self):
+        coord = self.canvas.coords(self.pong)
+        if round(coord[1]+1) >= self.height/18:
+            self.canvas.move(self.pong, 0, round(self.height/-18))
+
+    def bal(self, ball, x, y, player1, player2):
+        coord1 = self.canvas.coords(player1.pong)
+        coord2 = self.canvas.coords(player2.pong)
+        coord = self.canvas.coords(ball)
+        if coord[1] < 0 or coord[1] > self.height-round(self.height/30):
+            x = x * -1
+        if round(coord1[2]) > round(coord[0]) and round(coord1[0]) > round(coord[0]):
+            if coord1[1] < coord[1] < coord1[3]:
+                y = y * -1
+            else:
+                return False
+        if round(coord2[0]) < round(coord[2]) and round(coord2[0]) < round(coord[0]):
+            if coord2[1] < coord[1] < coord2[3]:
+                y = y * -1
+            else:
+                return False
+        self.canvas.move(ball, y, x)
+        return x, y
+
+
+
+
