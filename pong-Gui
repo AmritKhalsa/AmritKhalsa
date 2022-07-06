@@ -1,56 +1,77 @@
-import random
+import time
+from tkinter import *
+from Objects import Pong
 
-class Pong:
-    def __init__(self, canvas, width, height, boolean):
-        self.canvas = canvas
-        self.height = height
-        self.width = width
-        if boolean == 'pass':
-            pass
-        elif boolean:
-            self.pong = canvas.create_rectangle(50, 0, self.width/60, self.height/6, fill='white')
+
+def moving_up2(player):
+    player2.move_up()
+    window.update()
+
+
+def moving_down2(player):
+    player2.move_down()
+    window.update()
+
+
+def moving_up(player):
+    player1.move_up()
+    window.update()
+
+
+def moving_down(player):
+    player1.move_down()
+    window.update()
+
+
+window = Tk()
+
+window.resizable(width=False, height=False)
+h, w, s, ss = 256*3, 512*3, 3, 3
+canvas = Canvas(window, height=h, width=w, bg="black")
+
+player1 = Pong(canvas, w, h, True)
+player2 = Pong(canvas, w, h, False)
+canvas.pack(expand=True, fill=BOTH)
+ball_con = (round(w / 2 - w/120), round(h / 2-h/30), round(w / 2 + w / 120), round(h/2))
+Pong(canvas, w, h, 'pass').square()
+ball = canvas.create_rectangle(round(w / 2 - w/120), round(h / 2-h/30), round(w / 2 + w / 120), round(h/2), fill="red")
+p1, p2, x, y = 0, 0, s, ss
+f = False
+
+while True:
+    label = Label(window, text=str(p1), fg="white", font=('arial', 100), bg="black")
+    label.place(x=0, y=0)
+    label2 = Label(window, text=str(p2), fg="white", font=('arial', 100), bg="black")
+    label2.place(x=0, y=0)
+    canvas.create_window(700, 80, window=label)
+    canvas.create_window(835, 80, window=label2)
+    g = Pong(canvas, w, h, 'pass').bal(ball, x, y, player1, player2)
+    window.update()
+    if f:
+        time.sleep(1)
+        quit()
+    if not g[0]:
+        x, y = 3, 3
+        canvas.delete(ball)
+        ball = canvas.create_rectangle(round(w / 2 - w/120), round(h / 2-h/30), round(w / 2 + w / 120), round(h/2),
+                                       fill="red")
+        if g[1]:
+            p2 += 1
         else:
-            self.pong = canvas.create_rectangle(self.width - self.width/60, 0, self.width-self.width/30, self.height/6,
-                                                fill='white')
-
-    def square(self):
-        for x in range(-1, 16):
-            x = x * 2
-            self.canvas.create_rectangle(round(self.width / 2 - self.width / 120), round(0 + self.width / 60 * x),
-                                         round(self.width / 2 + self.width / 120),
-                                         round(self.width / 60 + self.width/60 * x),  fill="white")
-
-    def move_down(self):
-        coord = self.canvas.coords(self.pong)
-        if round(coord[3]+1) <= self.height:
-            self.canvas.move(self.pong, 0, round(self.height/18))
-
-    def move_up(self):
-        coord = self.canvas.coords(self.pong)
-        if round(coord[1]+1) >= self.height/18:
-            self.canvas.move(self.pong, 0, round(self.height/-18))
-
-    def bal(self, ball, x, y, player1, player2):
-        coord1 = self.canvas.coords(player1.pong)
-        coord2 = self.canvas.coords(player2.pong)
-        coord = self.canvas.coords(ball)
-        if coord[1] < 0 or coord[1] > self.height-round(self.height/30):
-            x = x * -1.1
-            y = y * 1
-        if round(coord1[2]) > round(coord[0]) and round(coord1[0]) > round(coord[0]):
-            if coord1[1] < coord[1] < coord1[3]:
-                y = y * -1
-                x = x * 1.1
-            else:
-                return False, True
-        if round(coord2[0]) < round(coord[2]) and round(coord2[0]) < round(coord[0]):
-            if coord2[1] < coord[1] < coord2[3]:
-                y = y * -1
-                x = x * 1.1
-            else:
-                return False, False
-        print(x, y)
-        self.canvas.move(ball, y, x)
-        return x, y
-
+            p1 += 1
+        if p1 == 10:
+            p1 = "Player 1 wins"
+            p2 = ""
+            f = True
+        elif p2 == 10:
+            p1 = ""
+            p2 = "Player 2 wins"
+            f = True
+    if g[0]:
+        x, y = g[0], g[1]
+        window.update()
+        window.bind("<s>", moving_down)
+        window.bind("<w>", moving_up)
+        window.bind("<Down>", moving_down2)
+        window.bind("<Up>", moving_up2)
 
