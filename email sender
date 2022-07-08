@@ -1,9 +1,9 @@
 import smtplib
 import random
-from Objects import password
 
-sender = "a"
-receiver = "b"
+sender = "-"
+receiver = "-"
+password = "-"
 subject = "Python email test"
 body = "This is an automatic email generated using python"
 
