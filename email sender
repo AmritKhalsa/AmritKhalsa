@@ -1,0 +1,27 @@
+import smtplib
+import random
+from Objects import password
+
+sender = "a"
+receiver = "b"
+subject = "Python email test"
+body = "This is an automatic email generated using python"
+
+x = 0
+while x < 10:
+    lst = "qwertyuiopasdfghjkl;zxcvbnm"
+    e = str(random.choices(lst))
+
+    message = f"""From: HeHeHeHa\n
+    {body}. The same email can't be sent if it contains the same letters so here is a random letter: {e}
+    """
+
+    server = smtplib.SMTP("smtp.gmail.com", 587)
+    server.starttls()
+
+    server.login(sender, password)
+    print("Logged in...")
+
+    server.sendmail(sender, receiver, message)
+    print("Email has been sent")
+    x += 1
