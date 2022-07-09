@@ -1,81 +1,93 @@
-com = input(">")
-com1 = "("+com+")"
+import functools
+n = list("("+input("")+")")
 
+def solving(new):
+    f = functools.reduce(lambda x, y: x+y, new)[1:-1]
+    opp = list()
+    num2 = list()
+    for num in f:
+        if num == "*" or num == "/" or num == "+" or num == "-":
+            opp.append(functools.reduce(lambda x, y: x + y, num2))
+            opp.append(num)
+            num2 = list()
+        else:
+            num2.append(num)
+    opp.append(functools.reduce(lambda x, y: x + y, num2))
+    print(opp)
+    _ = 0
+    while True:
+        if _ == len(opp):
+            break
+        if opp[_] == "*":
+            i = opp.index("*")
+            opp[i] = float(opp[i-1])*float(opp[i+1])
+            del opp[i-1], opp[i]
+            _ -= 1
+        if opp[_] == "/":
+            i = opp.index("/")
+            opp[i] = float(opp[i-1])/float(opp[i+1])
+            del opp[i-1], opp[i]
+            _ -= 1
+        _ +=1
+    _ = 0
+    while True:
+        if _ == len(opp):
+            break
+        if opp[_] == "+":
+            i = opp.index("+")
+            opp[i] = float(opp[i-1])+float(opp[i+1])
+            del opp[i-1], opp[i]
+            _ -= 1
+        if opp[_] == "-":
+            i = opp.index("-")
+            opp[i] = float(opp[i-1])-float(opp[i+1])
+            del opp[i-1], opp[i]
+            _ -= 1
 
-def multiply():
-   if "*" in sorting.numb:
-       multiply.x = float(sorting.numb[0]) * float(sorting.numb[2])
-   elif "/" in sorting.numb:
-       multiply.x = float(sorting.numb[0]) / float(sorting.numb[2])
+        _ += 1
+    return opp
+        
+    
 
-def add():
-   if "+" in sorting.numbe:
-       add.x = float(sorting.numbe[0]) + float(sorting.numbe[2])
-   elif "-" in sorting.numbe:
-       add.x = float(sorting.numbe[0]) - float(sorting.numbe[2])
-
-def sorting():
-   num = []
-   integers = []
-   for i in range(0, len(com)):
-       if com[i] == "+" or com[i] == "/" or com[i] == "*" or com[i] == "-":
-           integers.append(i)
-   x = 0
-   y = 0
-   while y + 1 <= len(integers):
-       x += 1
-       if x == 1:
-           n = com[0:integers[0]].replace(" ", "")
-           num.append(n)
-       elif y + 1 < len(integers):
-           n = com[integers[y] + 1:integers[y + 1]:].replace(" ", "")
-           num.append(n)
-           y += 1
-       else:
-           n = com[integers[len(integers) - 1] + 1::].replace(" ", "")
-           num.append(n)
-           break
-   sort = 0
-   p = integers
-   q = num
-   while sort < len(integers):
-       p = integers
-       q = num
-       sorting.numb = (q[sort], com[p[sort]], q[sort + 1])
-       if "*" in sorting.numb:
-           multiply()
-           num[sort] = " "
-           num[sort + 1] = multiply.x
-       elif "/" in sorting.numb:
-           multiply()
-           num[sort] = " "
-           num[sort + 1] = multiply.x
-       sort += 1
-   new_integer = [x for x in integers if com[x] != "*" and com[x] != "/"]
-   t = []
-   for x in num:
-       if x != " ":
-           t.append(x)
-   sort = 0
-   p = new_integer
-   q = t
-   while sort < len(new_integer):
-       p = new_integer
-       q = t
-       sorting.numbe = (q[sort], com[p[sort]], q[sort + 1])
-       if "+" in sorting.numbe:
-           add()
-           q[sort] = " "
-           q[sort + 1] = add.x
-       elif "-" in sorting.numbe:
-           add()
-           q[sort] = " "
-           q[sort + 1] = add.x
-       sort += 1
-   ans = []
-   for x in q:
-       if x != " ":
-           ans.append(x)
-   print(str(ans)[1:-1:])
-
-sorting()
+def finding_para(x):
+    high = list()
+    high2 = list()
+    downpara = list()
+    
+    location = 0
+    i = 0
+    for _ in x:
+        if i < 0:
+            quit()
+        if _ == "(":
+            i += 1
+            high2.append(location)
+            high.append(i)
+            
+        if _ == ")":
+            i -= 1
+            downpara.append(location)
+        location += 1
+        
+    if i != 0 :
+        quit()
+    
+    index = [index for index, item in enumerate(high) if item == max(high)][0]
+    location2 = high2[index]
+    
+    if len(downpara) >= 1:
+        y = location2
+        while True:
+            if y in downpara:
+                break
+            y += 1
+    print(location2, y)
+    newx = solving(x[location2:y+1:])
+    x[location2:y+1:] = list(str(newx))[1:-1]
+    if "(" in x:
+        finding_para(x)
+    else:
+        print(functools.reduce(lambda a, b: a+b, x))
+        return functools.reduce(lambda a, b: a+b, x)
+        
+finding_para(n)
