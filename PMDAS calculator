@@ -1,19 +1,38 @@
 import functools
 n = list("("+input("")+")")
 
+i = 0
+for letter in n:
+    if len(n)-1> i > 0:
+        if letter == "(":
+            if n[i-1] != "*" and n[i-1] != "/" and n[i-1] != "-" and n[i-1] != "+" and n[i-1] != "(":
+                n.insert(i, "*")
+        if letter == ")":
+            if n[i+1] != "*" and n[i+1] != "/" and n[i+1] != "-" and n[i+1] != "+" and n[i+1] != ")":
+                n.insert(i+1, "*")
+    i += 1
+            
 def solving(new):
     f = functools.reduce(lambda x, y: x+y, new)[1:-1]
     opp = list()
     num2 = list()
     for num in f:
-        if num == "*" or num == "/" or num == "+" or num == "-":
+        if num == "*" or num == "/" or num == "+":
             opp.append(functools.reduce(lambda x, y: x + y, num2))
             opp.append(num)
             num2 = list()
+        elif num == "-":
+            if len(num2) > 0:
+                opp.append(functools.reduce(lambda x, y: x + y, num2))
+                opp.append("+")
+                num2 = list()
+                num2.append(num)
+            else:
+                num2.append(num)
+                
         else:
             num2.append(num)
     opp.append(functools.reduce(lambda x, y: x + y, num2))
-    print(opp)
     _ = 0
     while True:
         if _ == len(opp):
@@ -38,12 +57,6 @@ def solving(new):
             opp[i] = float(opp[i-1])+float(opp[i+1])
             del opp[i-1], opp[i]
             _ -= 1
-        if opp[_] == "-":
-            i = opp.index("-")
-            opp[i] = float(opp[i-1])-float(opp[i+1])
-            del opp[i-1], opp[i]
-            _ -= 1
-
         _ += 1
     return opp
         
@@ -81,13 +94,14 @@ def finding_para(x):
             if y in downpara:
                 break
             y += 1
-    print(location2, y)
     newx = solving(x[location2:y+1:])
     x[location2:y+1:] = list(str(newx))[1:-1]
     if "(" in x:
         finding_para(x)
     else:
-        print(functools.reduce(lambda a, b: a+b, x))
-        return functools.reduce(lambda a, b: a+b, x)
+        ans =  (str(functools.reduce(lambda a, b: a+b, x)))
+        return ans
         
-finding_para(n)
+p = finding_para(n)
+print(p)
+
