@@ -1,0 +1,86 @@
+import time
+from tkinter import *
+from Objects import *
+
+lst = []
+
+
+def binding(e):
+    ly, ls = 0, 0
+    if 0 <= e.x < 200:
+        ls = 1
+    if 200 <= e.x < 400:
+        ls = 2
+    if 400 <= e.x < 600:
+        ls = 3
+    if 0 <= e.y < 200:
+        ly = 1
+    if 200 <= e.y < 400:
+        ly = 2
+    if 400 <= e.y < 600:
+        ly = 3
+    ans = 3*(ly-1) + ls
+    if str(ans) not in lst and str(ans + 10) not in lst:
+        lst.append(str(ans))
+    return ans
+
+
+window = Tk()
+
+canvas = Canvas(window, bg='black', height=600, width=600)
+canvas.create_rectangle(200, 0, 205, 600, fill="white")
+canvas.create_rectangle(400, 0, 405, 600, fill="white")
+canvas.create_rectangle(0, 200, 600, 205, fill="white")
+canvas.create_rectangle(0, 400, 600, 405, fill="white")
+
+
+def printing():
+    for x in lst:
+        x = int(x)
+        g = False
+        if x > 10:
+            x = x - 10
+            g = True
+        y = int(x//3.1)
+        y2 = x % 3
+        if y2 == 0:
+            y2 = 3
+        y2 -= 1
+        if not g:
+            canvas.create_line(y2 * 200, y * 200, y2 * 200 + 200, y * 200 + 200, fill='white', width=5)
+            canvas.create_line(y2 * 200, y * 200+200, y2 * 200 + 200, y * 200, fill='white', width=5)
+        else:
+            canvas.create_oval(y2 * 200 + 10, y * 200 + 10, y2 * 200 + 190, y * 200 + 190, fill='white', width=5)
+            canvas.create_oval(y2 * 200 + 35, y * 200 + 35, y2 * 200 + 165, y * 200 + 165, fill='Black', width=5)
+    input_ = canvas.bind('<Button-1>', binding)
+    canvas.pack()
+    window.update()
+    return input
+
+
+ke = []
+while True:
+    answer = printing()
+    time.sleep(.01)
+    g = False
+    i = 0
+    if len(ke) != len(lst):
+        g = True
+    if g:
+        inp = [_ for _ in lst if _ not in ke]
+        ke = list()
+        for x in lst:
+            ke.append(x)
+        g = obj(str(inp[0]), '1', lst)
+        if g == "Win":
+            print("You lost")
+            break
+        else:
+            lst = g
+            ke = [_ for _ in lst]
+            print(g, ke)
+
+
+
+
+window.mainloop()
