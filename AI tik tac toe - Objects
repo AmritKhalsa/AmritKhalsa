@@ -148,6 +148,12 @@ def obj(input_, intro, list_):
                 else:
                     printing("3", "O")
                     return None
+        if intro == '2' and len(list_) == 2 and '9' in list_:
+            printing("3", "O")
+            return None
+        if intro == '2' and len(list_) == 4 and '9' in list_ and '13' in list_ and '2' in list_:
+            printing("7", "O")
+            return None
         if intro == "2" and len(list_) == 4 and '5' not in list_ and '15' not in list_:
             printing('5', 'O')
             return None
@@ -251,4 +257,6 @@ def obj(input_, intro, list_):
     else:
         computer()
         player(cycle="X")
+        if winner(cycle=10)[0]:
+            return [list_, True, winner(cycle=10)[1]]
     return list_, False
