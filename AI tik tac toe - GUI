@@ -2,104 +2,160 @@ import time
 from tkinter import *
 from Objects import *
 
-lst = []
+
+def game(input__):
+    lst = []
+
+    def binding(e):
+        ly, ls = 0, 0
+        if 0 <= e.x < 200:
+            ls = 1
+        if 200 <= e.x < 400:
+            ls = 2
+        if 400 <= e.x < 600:
+            ls = 3
+        if 0 <= e.y < 200:
+            ly = 1
+        if 200 <= e.y < 400:
+            ly = 2
+        if 400 <= e.y < 600:
+            ly = 3
+        ans = 3*(ly-1) + ls
+        if str(ans) not in lst and str(ans + 10) not in lst:
+            lst.append(str(ans))
+        return ans
+
+    canvas = Canvas(window, bg='black', height=600, width=600)
+    canvas.create_rectangle(200, 0, 205, 600, fill="white")
+    canvas.create_rectangle(400, 0, 405, 600, fill="white")
+    canvas.create_rectangle(0, 200, 600, 205, fill="white")
+    canvas.create_rectangle(0, 400, 600, 405, fill="white")
+
+    def printing():
+        for q in lst:
+            if q == "TRUE":
+                break
+            q = int(q)
+            w = False
+            if q > 10:
+                q = q - 10
+                w = True
+            y = int(q//3.1)
+            y2 = q % 3
+            if y2 == 0:
+                y2 = 3
+            y2 -= 1
+            if not w:
+                canvas.create_line(y2 * 200, y * 200, y2 * 200 + 200, y * 200 + 200, fill='white', width=5)
+                canvas.create_line(y2 * 200, y * 200+200, y2 * 200 + 200, y * 200, fill='white', width=5)
+            else:
+                canvas.create_oval(y2 * 200 + 10, y * 200 + 10, y2 * 200 + 190, y * 200 + 190, fill='white', width=5)
+                canvas.create_oval(y2 * 200 + 35, y * 200 + 35, y2 * 200 + 165, y * 200 + 165, fill='Black', width=5)
+
+        input_ = canvas.bind('<Button-1>', binding)
+
+        canvas.pack()
+        window.update()
+        return input
+    if input__ == 2 and len(lst) == 0:
+        g = obj(None, '2', lst)
+    ke = []
+    while True:
+        printing()
+        time.sleep(.01)
+        p = False
+        i = 0
+        if len(ke) != len(lst):
+            p = True
+        if p:
+            inp = [_ for _ in lst if _ not in ke]
+            ke = list()
+            for x in lst:
+                ke.append(x)
+            if input__ == 1:
+                g = obj(str(inp[0]), '1', lst)
+            elif input__ == 2 and len(lst) > 1:
+                g = obj(str(inp[0]), '2', lst)
+            if g == "Tie":
+                printing()
+                break
+            elif g[1]:
+                window.update()
+                lst = g[0]
+                lst.append("TRUE")
+                printing()
+                start = int(g[2][:1])
+                if g[2] == '1-7' or g[2] == '2-8' or g[2] == '3-9':
+                    canvas.create_line(((start-1)*200)+100, 0, ((start-1)*200)+100, 600, width=20, fill='White')
+                if g[2] == '1-3' or g[2] == '4-6' or g[2] == '7-9':
+                    canvas.create_line(0, (((start*2)+1)/3)*100, 600, (((start*2)+1)/3)*100, width=20, fill='White')
+                if g[2] == '1-9':
+                    canvas.create_line(0, 0, 600, 600, width=20, fill='White')
+                if g[2] == '3-7':
+                    canvas.create_line(0, 600, 600, 0, width=20, fill='White')
+                break
+            else:
+                lst = g[0]
+                ke = [_ for _ in lst]
+    window.update()
+    time.sleep(3)
+    canvas.destroy()
 
 
-def binding(e):
-    ly, ls = 0, 0
-    if 0 <= e.x < 200:
-        ls = 1
-    if 200 <= e.x < 400:
-        ls = 2
-    if 400 <= e.x < 600:
-        ls = 3
-    if 0 <= e.y < 200:
-        ly = 1
-    if 200 <= e.y < 400:
-        ly = 2
-    if 400 <= e.y < 600:
-        ly = 3
-    ans = 3*(ly-1) + ls
-    if str(ans) not in lst and str(ans + 10) not in lst:
-        lst.append(str(ans))
-    return ans
+def repeat():
+    player = []
 
+    def a():
+        player.append(1)
+        button1.pack_forget()
+        button2.pack_forget()
+        game(float(player[0]))
+        label = Label(window, text="Would you like to play again")
+        label.pack()
+
+        def qui():
+            quit()
+
+        def again():
+            button3.pack_forget()
+            button4.pack_forget()
+            label.pack_forget()
+            repeat()
+        button3 = Button(window, text='Yes', command=again)
+        button4 = Button(window, text="No", command=qui)
+        button3.pack()
+        button4.pack()
+
+    def b():
+        player.append(2)
+        button1.pack_forget()
+        button2.pack_forget()
+        game(float(player[0]))
+        label = Label(window, text="Would you like to play again")
+        label.pack()
+
+        def qui():
+            quit()
+
+        def again():
+            button3.pack_forget()
+            button4.pack_forget()
+            label.pack_forget()
+            repeat()
+
+        button3 = Button(window, text='Yes', command=again)
+        button4 = Button(window, text="No", command=qui)
+        button3.pack()
+        button4.pack()
+
+    button1 = Button(window, text='player1', command=a)
+    button2 = Button(window, text='player2', command=b)
+
+    button1.pack()
+    button2.pack()
 
 window = Tk()
 
-canvas = Canvas(window, bg='black', height=600, width=600)
-canvas.create_rectangle(200, 0, 205, 600, fill="white")
-canvas.create_rectangle(400, 0, 405, 600, fill="white")
-canvas.create_rectangle(0, 200, 600, 205, fill="white")
-canvas.create_rectangle(0, 400, 600, 405, fill="white")
-
-
-def printing():
-    for x in lst:
-        if x == "TRUE":
-            break
-        x = int(x)
-        g = False
-        if x > 10:
-            x = x - 10
-            g = True
-        y = int(x//3.1)
-        y2 = x % 3
-        if y2 == 0:
-            y2 = 3
-        y2 -= 1
-        if not g:
-            canvas.create_line(y2 * 200, y * 200, y2 * 200 + 200, y * 200 + 200, fill='white', width=5)
-            canvas.create_line(y2 * 200, y * 200+200, y2 * 200 + 200, y * 200, fill='white', width=5)
-        else:
-            canvas.create_oval(y2 * 200 + 10, y * 200 + 10, y2 * 200 + 190, y * 200 + 190, fill='white', width=5)
-            canvas.create_oval(y2 * 200 + 35, y * 200 + 35, y2 * 200 + 165, y * 200 + 165, fill='Black', width=5)
-
-    input_ = canvas.bind('<Button-1>', binding)
-    canvas.pack()
-    window.update()
-    return input
-
-
-ke = []
-while True:
-    answer = printing()
-    time.sleep(.01)
-    g = False
-    i = 0
-    if len(ke) != len(lst):
-        g = True
-    if g:
-        inp = [_ for _ in lst if _ not in ke]
-        ke = list()
-        for x in lst:
-            ke.append(x)
-        g = obj(str(inp[0]), '1', lst)
-        if g == "Tie":
-            printing()
-        elif g[1]:
-            window.update()
-            lst = g[0]
-            print(g)
-            lst.append("TRUE")
-            printing()
-            start = int(g[2][:1])
-            end = int(g[2][2:])
-            if g[2] == '1-7' or g[2] == '2-8' or g[2] == '3-9':
-                line = canvas.create_line(((start-1)*200)+100, 0, ((start-1)*200)+100, 600, width=20, fill='White')
-            if g[2] == '1-3' or g[2] == '4-6' or g[2] == '7-9':
-                line = canvas.create_line(0, (((start*2)+1)/3)*100, 600, (((start*2)+1)/3)*100, width=20, fill='White')
-            if g[2] == '1-9':
-                line = canvas.create_line(0, 0, 600, 600, width=20, fill='White')
-            if g[2] == '3-7':
-                line = canvas.create_line(0, 600, 600, 0, width=20, fill='White')
-            break
-        else:
-            lst = g[0]
-            ke = [_ for _ in lst]
-
-
-
-
+repeat()
 
 window.mainloop()
