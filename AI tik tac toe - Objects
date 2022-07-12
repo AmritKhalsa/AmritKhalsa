@@ -1,38 +1,30 @@
 import random
-import time
+
 
 def obj(input_, intro, list_):
-    Game_ = [
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9]
-    ]
 
-    Game = [[" ", " ", " "],
+    game = [[" ", " ", " "],
             [" ", " ", " "],
             [" ", " ", " "]]
-
-
 
     def player(cycle):
         if len(list_) >= 9:
             return "Tie"
-        return printing(input_=input_, letter=cycle)
+        return printing(inp=input_, letter=cycle)
 
-    def printing(input_, letter):
+    def printing(inp, letter):
         row = 0
         iteration = 1
-        for c in Game:
+        for c in game:
             col = 0
             for z in c:
-                if str(iteration) == input_:
-                    Game[row][col] = str(letter)
+                if str(iteration) == inp:
+                    game[row][col] = str(letter)
                 iteration += 1
                 col += 1
             row += 1
-        tt = 0
         if letter == "O":
-            list_.append(str(int(input_) + 10))
+            list_.append(str(int(inp) + 10))
         if winner(cycle=10)[0]:
             return "O wins"
 
