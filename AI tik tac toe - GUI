@@ -52,7 +52,7 @@ def game(input__):
                 canvas.create_oval(y2 * 200 + 10, y * 200 + 10, y2 * 200 + 190, y * 200 + 190, fill='white', width=5)
                 canvas.create_oval(y2 * 200 + 35, y * 200 + 35, y2 * 200 + 165, y * 200 + 165, fill='Black', width=5)
 
-        input_ = canvas.bind('<Button-1>', binding)
+        canvas.bind('<Button-1>', binding)
 
         canvas.pack()
         window.update()
@@ -64,7 +64,6 @@ def game(input__):
         printing()
         time.sleep(.01)
         p = False
-        i = 0
         if len(ke) != len(lst):
             p = True
         if p:
@@ -153,6 +152,7 @@ def repeat():
 
     button1.pack()
     button2.pack()
+
 
 window = Tk()
 
