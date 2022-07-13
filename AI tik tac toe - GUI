@@ -60,6 +60,7 @@ def game(input__):
     if input__ == 2 and len(lst) == 0:
         g = obj(None, '2', lst)
     ke = []
+    tie = False
     while True:
         printing()
         time.sleep(.01)
@@ -69,14 +70,20 @@ def game(input__):
         if p:
             inp = [_ for _ in lst if _ not in ke]
             ke = list()
-            for x in lst:
-                ke.append(x)
+            for _ in lst:
+                ke.append(_)
             if input__ == 1:
                 g = obj(str(inp[0]), '1', lst)
             elif input__ == 2 and len(lst) > 1:
                 g = obj(str(inp[0]), '2', lst)
             if g == "Tie":
                 printing()
+                canvas.destroy()
+                window.configure(bg='black')
+                label = Label(window, text="It's a Tie", font=('Ariel', 40), fg='white', bg='black')
+                label.pack()
+                window.update()
+                tie = True
                 break
             elif g[1]:
                 window.update()
@@ -96,9 +103,15 @@ def game(input__):
             else:
                 lst = g[0]
                 ke = [_ for _ in lst]
-    window.update()
-    time.sleep(3)
-    canvas.destroy()
+    if tie:
+        window.update()
+        time.sleep(3)
+        label.pack_forget()
+        window.configure(bg='white')
+    else:
+        window.update()
+        time.sleep(3)
+        canvas.destroy()
 
 
 def repeat():
@@ -155,7 +168,9 @@ def repeat():
 
 
 window = Tk()
-
+w, h, ws, hs = 600, 600, window.winfo_screenwidth(), window.winfo_screenheight()
+x, y = (ws/2) - (w/2), (hs/2) - (h/2)
+window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 repeat()
 
 window.mainloop()
