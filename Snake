@@ -1,0 +1,106 @@
+from tkinter import *
+import time
+import random
+lst_ = [[270.0, 290.0, 280.0, 300.0], [280.0, 290.0, 290.0, 300.0], [290.0, 290.0, 300.0, 300.0]]
+
+
+class Snake:
+    def __init__(self, canvas_, lst, height):
+        self.canvas = canvas_
+        self.height = height
+        self.lst = lst
+        for cords in self.lst:
+            self.snake = self.canvas.create_rectangle(cords[0], cords[1], cords[2], cords[3], fill='green')
+        self.head = self.canvas.create_rectangle(self.lst[-1][0], self.lst[-1][1], self.lst[-1][2], self.lst[-1][3],
+                                                 fill='blue')
+
+
+window = Tk()
+x_velocity, y_velocity = IntVar(), IntVar()
+x_velocity.set(10)
+y_velocity.set(0)
+w, h, ws, wh = 600, 600, window.winfo_screenwidth(), window.winfo_screenheight()
+sw, sh = (ws/2) - (w/2), (wh/2) - (h/2)
+window.geometry(f"{w}x{h}+{round(sw)}+{round(sh)-50}")
+random_var = [_ for _ in range(0, 601) if _ % 10 == 0]
+print(random_var)
+food_store = [0]
+
+
+def moving():
+    def up(e):
+        window.unbind("<s>")
+        window.bind("<a>", left)
+        window.bind("<d>", right)
+        x_velocity.set(0)
+        y_velocity.set(-10)
+
+    def down(e):
+        window.unbind("<w>")
+        window.bind("<a>", left)
+        window.bind("<d>", right)
+        x_velocity.set(0)
+        y_velocity.set(10)
+
+    def left(e):
+        window.bind("<w>", up)
+        window.bind("<s>", down)
+        window.unbind("<d>")
+        x_velocity.set(-10)
+        y_velocity.set(0)
+
+    def right(e):
+        window.bind("<w>", up)
+        window.bind("<s>", down)
+        window.unbind("<a>")
+        x_velocity.set(10)
+        y_velocity.set(0)
+
+    window.bind("<w>", up)
+    window.bind("<s>", down)
+    window.bind("<a>", left)
+    window.bind("<d>", right)
+
+
+moving()
+snake_length = 5
+while True:
+    # Creating Canvas
+    canvas = Canvas(window, bg='black')
+    canvas.pack(fill=BOTH, expand=True)
+
+    # Making food when it runs out
+    if len(food_store) == 1:
+        x_cord, y_cord = random.choices(random_var), random.choices(random_var)
+        food_store.append([x_cord, y_cord])
+
+    # printing snake and food to canvas
+    a, b, c, d = food_store[1][0][0], food_store[1][0][0], food_store[1][0][0] + 10, food_store[1][0][0] + 10
+    snake = Snake(canvas, lst_, 30)
+    food = canvas.create_rectangle(a, b, c, d, fill='red')
+    snake.canvas.move(snake.head, x_velocity.get(), y_velocity.get())
+    cord = snake.canvas.coords(snake.head)
+
+    # Checking for eating
+    if cord[0] == a and cord[1] == b and cord[2] == c and cord[3] == d:
+        del food_store[1]
+        snake_length += 1
+
+    # Checking for losses
+    if cord in lst_:
+        print("you lost")
+        break
+    else:
+        lst_.append(snake.canvas.coords(snake.head))
+    if lst_[-1][2] >= w+1 or lst_[-1][0] <= -1 or lst_[-1][1] <= -1 or lst_[-1][3] >= h+1:
+        print("you lost")
+        break
+    if len(lst_) >= snake_length:
+        del lst_[0]
+
+    # Deleting canvas
+    window.update()
+    time.sleep(.03)
+    canvas.destroy()
+
+window.mainloop()
