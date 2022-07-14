@@ -1,0 +1,43 @@
+from tkinter import *
+import time
+
+
+def lines():
+    for ii in range(0, 10):
+        width_ = 3
+        if ii % 3 == 0:
+            width_ = 6
+        canvas.create_line(ii*100, 0, ii*100, 900, width=width_)
+    for ii in range(0, 10):
+        width_ = 3
+        if ii % 3 == 0:
+            width_ = 6
+        canvas.create_line(0, ii*100, 900, ii*100, width=width_)
+
+
+window = Tk()
+canvas = Canvas(window, width=900, height=900)
+canvas.grid(row=0, columnspan=9, rowspan=9)
+lines()
+
+
+def gui(number, boolean):
+    labels = list()
+    row = 0
+    for x in number:
+        col = 0
+        for xx in x:
+            if xx != 0:
+                label = Label(window, text=f"{xx} ", font=("ariel", 50), fg='blue')
+                label.grid(row=row, column=col, padx=5)
+                labels.append(label)
+            col += 1
+        row += 1
+    window.update()
+    if boolean:
+        for labels in labels:
+            labels.destroy()
+    else:
+        while True:
+            window.update()
+            time.sleep(.1)
