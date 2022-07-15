@@ -80,8 +80,8 @@ def game(input__):
                 printing()
                 canvas.destroy()
                 window.configure(bg='black')
-                label = Label(window, text="It's a Tie", font=('Ariel', 40), fg='white', bg='black')
-                label.pack()
+                label = Label(window, text='It is a Tie', font=('display', 20, 'bold'), fg='green', bg='black')
+                label.place(relx=.5, rely=.5, anchor=CENTER)
                 window.update()
                 tie = True
                 break
@@ -106,7 +106,7 @@ def game(input__):
     if tie:
         window.update()
         time.sleep(3)
-        label.pack_forget()
+        label.place_forget()
         window.configure(bg='white')
     else:
         window.update()
@@ -117,33 +117,37 @@ def game(input__):
 def repeat():
     player = []
 
-    def a():
+    def a(label):
+        label.pack_forget()
         player.append(1)
-        button1.pack_forget()
-        button2.pack_forget()
+        button1.place_forget()
+        button2.place_forget()
         game(float(player[0]))
-        label = Label(window, text="Would you like to play again")
+        window.configure(bg='black')
+        label = Label(window, text='Would you like to play again', font=('display', 20, 'bold'), fg='green', bg='black')
         label.pack()
 
         def qui():
             quit()
 
         def again():
-            button3.pack_forget()
-            button4.pack_forget()
+            button3.place_forget()
+            button4.place_forget()
             label.pack_forget()
             repeat()
-        button3 = Button(window, text='Yes', command=again)
-        button4 = Button(window, text="No", command=qui)
-        button3.pack()
-        button4.pack()
+        button3 = Button(window, text='Yes', command=again, height=2, width=20)
+        button4 = Button(window, text="No", command=qui, height=2, width=20)
+        button3.place(x=80, y=100)
+        button4.place(x=400, y=100)
 
-    def b():
+    def b(label):
+        label.pack_forget()
         player.append(2)
-        button1.pack_forget()
-        button2.pack_forget()
+        button1.place_forget()
+        button2.place_forget()
+        window.configure(bg='black')
         game(float(player[0]))
-        label = Label(window, text="Would you like to play again")
+        label = Label(window, text='Would you like to play again', font=('display', 20, 'bold'), fg='green', bg='black')
         label.pack()
 
         def qui():
@@ -160,17 +164,21 @@ def repeat():
         button3.pack()
         button4.pack()
 
-    button1 = Button(window, text='player1', command=a)
-    button2 = Button(window, text='player2', command=b)
+    label = Label(window, text='Choose: Player 1 or Player 2', font=('display', 20, 'bold'), fg='green', bg='black')
+    label.pack()
+    button1 = Button(window, text='player1', command=lambda: a(label), height=2, width=20)
+    button2 = Button(window, text='player2', command=lambda: b(label), height=2, width=20)
 
-    button1.pack()
-    button2.pack()
+    button1.place(x=80, y=100)
+    button2.place(x=400, y=100)
 
 
 window = Tk()
 w, h, ws, hs = 600, 600, window.winfo_screenwidth(), window.winfo_screenheight()
 x, y = (ws/2) - (w/2), (hs/2) - (h/2)
 window.geometry('%dx%d+%d+%d' % (w, h, x, y))
+window.configure(bg='black')
 repeat()
 
 window.mainloop()
+
